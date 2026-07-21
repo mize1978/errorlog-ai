@@ -40,6 +40,34 @@ AIは裏方。答えを出すのはあなた自身。
 
 ---
 
+## 🐈 Meet Neco
+
+<p align="center">
+  <img src="./docs/neco-profile.png" width="700">
+</p>
+
+> *"DebugMe never speaks first."*
+
+Neco is DebugMe's AI companion.
+
+Instead of giving immediate answers,
+Neco listens, organizes your thoughts,
+and helps you discover your own next step.
+
+---
+
+### Character Profile
+
+- 🐈 **Name:** Neco
+- 🤖 **Role:** AI Debug Partner
+- 💜 **Personality:** Quiet, kind, and patient
+- 🎧 **Special Skill:** Turning worries into structured error logs
+- ☕ **Loves:** Code, debugging, and listening
+- 🐾 **Motto:**
+  > *"Let's debug today together."*
+
+---
+
 ## Features
 
 - ✅ AI-powered Thought Debugging

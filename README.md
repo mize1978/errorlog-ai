@@ -1,5 +1,9 @@
 # DebugMe
 
+<p align="center">
+  <img src="./docs/banner.png" width="100%">
+</p>
+
 > **Debug your day.**
 > AI-powered thought debugging.
 

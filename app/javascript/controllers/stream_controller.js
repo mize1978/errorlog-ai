@@ -1,15 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
 const BOOT = [
-  { type: "line", cls: "ok",   text: "Booting DebugMe v1.0.0...",                     delay: 0    },
-  { type: "line", cls: "info", text: "Initializing AI engine (claude-sonnet-4-6)...", delay: 480  },
-  { type: "line", cls: "ok",   text: "Connection to Claude API established ⚡",       delay: 900  },
-  { type: "prog", label: "Analyzing input data...",                                    delay: 1250 },
-  { type: "prog", label: "Building diagnostic context...",                             delay: 1720 },
-  { type: "prog", label: "Generating error log...",                                    delay: 2150 },
-  { type: "line", cls: "warn", text: "Compiling stack trace...",                       delay: 2600 },
+  { type: "line", cls: "ok",   text: "✓ Booting DebugMe v1.0.0...",                          delay: 0    },
+  { type: "line", cls: "info", text: "  Connecting to Claude API...",                         delay: 420  },
+  { type: "line", cls: "ok",   text: "✓ Connection established ⚡",                           delay: 820  },
+  { type: "line", cls: "info", text: "  Initializing AI engine (claude-sonnet-4-6)...",       delay: 1100 },
+  { type: "prog", label: "Analyzing input data...   ",                                         delay: 1380 },
+  { type: "line", cls: "ok",   text: "✓ Input processed",                                     delay: 1700 },
+  { type: "prog", label: "Building diagnostic context...",                                      delay: 1950 },
+  { type: "prog", label: "Generating error log...  ",                                           delay: 2350 },
+  { type: "line", cls: "warn", text: "  Compiling stack trace...",                             delay: 2700 },
+  { type: "line", cls: "ok",   text: "✓ Stream ready ⚡",                                     delay: 2900 },
 ]
-const BOOT_DONE = 3000
+const BOOT_DONE = 3200
 
 const QUOTES = [
   "バグは仕様だ — Anonymous Engineer",

@@ -58,6 +58,8 @@ export default class extends Controller {
     if (this.hasUrlValue && this.urlValue) {
       this.runBoot()
       this.openSSE()
+    } else {
+      this.runIdle()
     }
   }
 
@@ -81,6 +83,17 @@ export default class extends Controller {
     if (/友達|人間関係|孤独|ぼっち|家族|親|兄弟|仲間|コミュ/.test(text))      return "social"
     if (/将来|不安|夢|目標|やりたい|迷|キャリア|方向性/.test(text))           return "future"
     return "default"
+  }
+
+  // ── Idle (new page) ──
+  runIdle() {
+    const messages = [
+      "🐾 ようこそ。\n今日は何をデバッグする？",
+      "🐾 準備完了にゃ。\n悩みを教えて。",
+      "🐾 起動完了。\nどんなエラーがある？",
+    ]
+    const msg = messages[Math.floor(Math.random() * messages.length)]
+    this.setCat("", "", msg)
   }
 
   // ── Boot sequence ──

@@ -11,9 +11,20 @@ class DebugLogsController < ApplicationController
     "エラーは成長への招待状。",
   ].freeze
 
+  DEBUG_HINTS = [
+    "エラーは\n原因が見つかった瞬間から\n修正が始まる。",
+    "悩みも、デバッグすれば\n小さな問題に分解できる。",
+    "完璧なコードはない。\n完璧に向かうプロセスがある。",
+    "問題を言語化できれば、\n半分は解決している。",
+    "一度に一つのバグを直す。\n焦るな。",
+    "ログを書くことは、\n自分の思考を整理すること。",
+    "エラーを隠すな。\nまずログに残せ。",
+  ].freeze
+
   def new
     @debug_log = DebugLog.new
     @popular   = DebugLog.where.not(output: nil).order(view_count: :desc).limit(5)
+    @hint      = DEBUG_HINTS[Date.today.yday % DEBUG_HINTS.size]
     @quote     = DAILY_QUOTES[Date.today.yday % DAILY_QUOTES.size]
   end
 

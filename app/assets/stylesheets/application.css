@@ -513,7 +513,25 @@ body {
 .quote-text { font-size: 0.73rem; color: var(--text-dim); line-height: 1.6; font-style: italic; }
 .quote-cat { margin-right: 5px; font-style: normal; }
 
-/* ── Waiting state ── */
+/* ── Idle terminal (new page center panel) ── */
+.idle-divider {
+  display: flex; align-items: center; gap: 8px;
+  margin: 16px 0 12px;
+}
+.idle-div-line { flex: 1; height: 1px; background: var(--cyan); opacity: 0.35; }
+.idle-div-label {
+  color: var(--cyan); font-size: 0.68rem; letter-spacing: 0.18em;
+  white-space: nowrap; font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 8px rgba(94,230,255,0.7);
+}
+.idle-prompt {
+  margin-top: 16px;
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.idle-prompt-char { color: var(--cyan); font-size: 0.85rem; font-weight: 700; }
+
+/* ── Waiting state (legacy, kept for fallback) ── */
 .waiting-panel {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;

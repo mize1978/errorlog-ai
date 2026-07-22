@@ -74,8 +74,9 @@
       <!-- Cat speech bubble -->
       <div class="cat-section">
         <div class="cat-body">
-          <p class="cat-name">DEBUG CAT v1.0</p>
-          <p class="cat-bubble" data-stream-target="catBubble">I'm listening.</p>
+          <p class="cat-name">NECO v1.0</p>
+          <p class="cat-bubble" data-stream-target="catBubble">🐾 ようこそ。
+今日は何をデバッグする？</p>
         </div>
       </div>
 
@@ -89,7 +90,7 @@
       </div>
     </div>
 
-    <!-- ── CENTER: Waiting ── -->
+    <!-- ── CENTER: Idle terminal ── -->
     <div class="panel panel-center">
       <div class="panel-header">
         <span>SYSTEM CONSOLE</span>
@@ -98,9 +99,43 @@
           READY
         </div>
       </div>
-      <div class="waiting-panel">
-        <div class="waiting-icon">⌨️</div>
-        <p class="waiting-text">悩みを入力してデバッグを開始すると<br>リアルタイムでログが生成されます</p>
+      <div class="console-body">
+        <div class="console-line" style="animation-delay:0.1s">
+          <span class="console-ts">[<%= Time.now.strftime("%H:%M:%S") %>]</span>
+          <span class="console-txt ok">✓ Booting DebugMe v1.0.0...</span>
+        </div>
+        <div class="console-line" style="animation-delay:0.45s">
+          <span class="console-ts">[<%= Time.now.strftime("%H:%M:%S") %>]</span>
+          <span class="console-txt ok">✓ Claude Engine Ready</span>
+        </div>
+        <div class="console-line" style="animation-delay:0.8s">
+          <span class="console-ts">[<%= Time.now.strftime("%H:%M:%S") %>]</span>
+          <span class="console-txt ok">✓ Neco AI Initialized</span>
+        </div>
+
+        <div class="idle-divider" style="opacity:0;animation:fadeInLine 0.4s ease 1.25s forwards">
+          <div class="idle-div-line"></div>
+          <span class="idle-div-label">SYSTEM READY</span>
+          <div class="idle-div-line"></div>
+        </div>
+
+        <div class="console-line" style="animation-delay:1.7s">
+          <span class="console-ts"></span>
+          <span class="console-txt info">Neco AI Assistant initialized.</span>
+        </div>
+        <div class="console-line" style="animation-delay:2.0s">
+          <span class="console-ts"></span>
+          <span class="console-txt" style="color:var(--text-dim)">No active debug session.</span>
+        </div>
+        <div class="console-line" style="animation-delay:2.3s">
+          <span class="console-ts"></span>
+          <span class="console-txt" style="color:var(--text-mute)">Waiting for your debug request...</span>
+        </div>
+
+        <div class="idle-prompt" style="opacity:0;animation:fadeInLine 0.3s ease 2.75s forwards">
+          <span class="idle-prompt-char">&gt;</span>
+          <span class="cursor-blink">_</span>
+        </div>
       </div>
       <div class="console-footer">
         <span class="prompt">$ debugme --analyze</span>
@@ -159,10 +194,10 @@
         <p style="font-size:0.72rem;color:var(--text-mute)">デバッグ後に表示されます</p>
       </div>
 
-      <!-- Quote -->
+      <!-- Debug Hint -->
       <div class="quote-section">
-        <p class="quote-label">今日の名言</p>
-        <p class="quote-text"><span class="quote-cat">🐱</span> <%= @quote %></p>
+        <p class="quote-label">💡 今日のデバッグヒント</p>
+        <p class="quote-text" style="font-style:normal;white-space:pre-line;line-height:1.8"><%= @hint %></p>
       </div>
 
       <!-- Popular -->

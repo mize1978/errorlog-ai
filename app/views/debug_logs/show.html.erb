@@ -143,7 +143,7 @@
 
       <!-- Metric bars -->
       <div class="metrics-section">
-        <p class="metrics-title">Log Summary</p>
+        <p class="metrics-title">診断スコア</p>
 
         <div class="metric-row">
           <span class="metric-name">自己肯定感</span>
@@ -180,7 +180,8 @@
 
       <!-- Suggested fix -->
       <div class="fix-section">
-        <p class="fix-title">🔧 SUGGESTED FIX</p>
+        <p class="fix-title">SUGGESTED FIX</p>
+        <p class="fix-subtitle">まずここから始めよう</p>
         <ul class="fix-list" data-stream-target="fixList">
           <% if @debug_log.output.blank? %>
             <li style="font-size:0.72rem;color:var(--text-mute)">デバッグ後に表示されます...</li>
@@ -203,12 +204,12 @@
         <a href="#" target="_blank" rel="noopener"
            class="btn-share btn-share-x"
            data-stream-target="shareX">
-          𝕏 でシェアする
-        </div>
+          X（Twitter）でシェア
+        </a>
         <button class="btn-share btn-share-copy"
                 data-action="click->stream#copy"
                 data-stream-target="shareCopy">
-          📋 コピーする
+          エラーログをコピー
         </button>
       </div>
 

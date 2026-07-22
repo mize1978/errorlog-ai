@@ -140,8 +140,8 @@ body {
 .input-section { padding: 14px; }
 
 .input-label {
-  font-size: 0.65rem; letter-spacing: 0.2em; color: var(--purple);
-  text-transform: uppercase; margin-bottom: 8px;
+  font-size: 0.65rem; letter-spacing: 0.12em; color: var(--text);
+  margin-bottom: 8px;
 }
 
 .input-field {
@@ -176,14 +176,14 @@ body {
 }
 
 .sample-section { padding: 0 14px 12px; }
-.sample-label { font-size: 0.6rem; color: var(--text-mute); letter-spacing: 0.15em; margin-bottom: 8px; }
+.sample-label { font-size: 0.6rem; color: var(--cyan); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; }
 .sample-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .sample-chip {
   font-size: 0.68rem; padding: 4px 10px; border-radius: 20px;
-  border: 1px solid var(--border); color: var(--text-dim); background: var(--bg-dark);
+  border: 1px solid rgba(180, 100, 255, 0.4); color: var(--text); background: rgba(155,68,255,0.08);
   cursor: pointer; transition: all 0.2s;
 }
-.sample-chip:hover { border-color: var(--purple); color: var(--text); }
+.sample-chip:hover { border-color: var(--pink); color: var(--pink); background: rgba(255,68,204,0.1); }
 
 /* Cat mascot image */
 .cat-img-section { position: relative; overflow: hidden; }
@@ -410,7 +410,11 @@ body {
 .fix-section { padding: 12px 14px; border-bottom: 1px solid var(--border); }
 .fix-title {
   font-size: 0.62rem; color: var(--text-mute); letter-spacing: 0.15em;
-  text-transform: uppercase; margin-bottom: 10px;
+  text-transform: uppercase; margin-bottom: 2px;
+}
+.fix-subtitle {
+  font-size: 0.68rem; color: var(--pink); margin-bottom: 10px;
+  letter-spacing: 0.05em;
 }
 .fix-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
 .fix-item {

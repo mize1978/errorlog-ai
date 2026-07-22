@@ -67,6 +67,11 @@ body {
 }
 .app-logo .cat-icon,
 .app-logo .logo-bug { -webkit-text-fill-color: initial; margin-right: 6px; font-size: 1.1rem; }
+.logo-cat {
+  height: 36px; width: 36px; object-fit: contain;
+  margin-right: 8px; vertical-align: middle;
+  filter: drop-shadow(0 0 6px rgba(255,73,200,0.8)) drop-shadow(0 0 14px rgba(94,230,255,0.5));
+}
 
 .app-nav { display: flex; gap: 20px; align-items: center; }
 .app-nav a {

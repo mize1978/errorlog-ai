@@ -3,6 +3,7 @@
 <div class="app-layout"
      data-controller="stream"
      data-stream-url-value="<%= @debug_log.output.blank? ? stream_debug_log_path(@debug_log) : "" %>"
+     data-stream-input-value="<%= @debug_log.input %>"
 >
 
   <!-- Header -->

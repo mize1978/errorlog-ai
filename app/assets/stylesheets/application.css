@@ -17,6 +17,7 @@
   --cyan:      #5ee6ff;
   --green:     #44ffaa;
   --red:       #ff4466;
+  --orange:    #ff8844;
   --yellow:    #ffcc44;
   --text:      #dfe8ff;
   --text-dim:  rgba(210, 220, 255, 0.55);
@@ -203,18 +204,29 @@ body {
 .cat-img-section { position: relative; overflow: hidden; display: flex; justify-content: center; padding: 8px 0 0; }
 .cat-img {
   width: 84%; display: block;
-  transition: filter 0.6s ease, transform 0.4s ease;
+  transition: filter 0.6s ease;
   filter: drop-shadow(0 0 18px rgba(155,68,255,0.5));
+  animation: catGlow 3s ease-in-out infinite, catBlink 5s ease-in-out infinite;
 }
-.cat-img.analyzing { animation: catGlow 2s ease-in-out infinite; }
+.cat-img.analyzing {
+  animation: catGlow 2s ease-in-out infinite, catBlink 5s ease-in-out 1.5s infinite;
+}
 .cat-img.alert {
   filter: drop-shadow(0 0 24px rgba(255,68,102,0.9)) !important;
   animation: catShakeImg 0.4s ease;
 }
-.cat-img.fix { filter: drop-shadow(0 0 24px rgba(68,255,170,0.85)) !important; }
+.cat-img.fix {
+  filter: drop-shadow(0 0 24px rgba(68,255,170,0.85)) !important;
+  animation: catGlow 3s ease-in-out infinite, catBlink 5s ease-in-out 2s infinite;
+}
 @keyframes catGlow {
   0%,100% { filter: drop-shadow(0 0 18px rgba(155,68,255,0.5)); }
-  50%      { filter: drop-shadow(0 0 36px rgba(155,68,255,1.0)); }
+  50%     { filter: drop-shadow(0 0 36px rgba(155,68,255,1.0)); }
+}
+@keyframes catBlink {
+  0%, 88%, 100% { transform: none; }
+  92%           { transform: scaleY(0.80); }
+  96%           { transform: none; }
 }
 @keyframes catShakeImg {
   0%,100% { transform: rotate(0deg) scale(1); }
@@ -236,8 +248,8 @@ body {
   margin-bottom: 6px; letter-spacing: 0.05em;
 }
 .cat-bubble {
-  font-size: 0.73rem; color: var(--text-dim); line-height: 1.5;
-  transition: all 0.3s;
+  font-size: 0.73rem; color: var(--text-dim); line-height: 1.6;
+  transition: all 0.3s; white-space: pre-line;
 }
 .cat-bubble.alert { color: var(--red); }
 .cat-bubble.fix { color: var(--green); }
@@ -401,7 +413,8 @@ body {
   filter: drop-shadow(0 0 6px rgba(155,68,255,0.6));
 }
 .gauge-fill.critical { stroke: var(--pink);   filter: drop-shadow(0 0 8px rgba(255,73,200,0.9)); }
-.gauge-fill.high  { stroke: var(--red);    filter: drop-shadow(0 0 6px rgba(255,68,102,0.6)); }
+.gauge-fill.high  { stroke: var(--red);    filter: drop-shadow(0 0 6px rgba(255,68,102,0.7)); }
+.gauge-fill.warn  { stroke: var(--orange); filter: drop-shadow(0 0 6px rgba(255,136,68,0.6)); }
 .gauge-fill.mid   { stroke: var(--yellow); filter: drop-shadow(0 0 6px rgba(255,204,68,0.5)); }
 .gauge-fill.low   { stroke: var(--green);  filter: drop-shadow(0 0 6px rgba(68,255,170,0.5)); }
 
@@ -413,6 +426,7 @@ body {
 .gauge-risk { font-size: 0.6rem; letter-spacing: 0.12em; margin-top: 2px; }
 .gauge-risk.critical { color: var(--pink); }
 .gauge-risk.high   { color: var(--red); }
+.gauge-risk.warn   { color: var(--orange); }
 .gauge-risk.mid    { color: var(--yellow); }
 .gauge-risk.low    { color: var(--green); }
 

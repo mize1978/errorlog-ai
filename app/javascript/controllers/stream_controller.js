@@ -22,6 +22,16 @@ const QUOTES = [
   "404: 完璧な人間は見つかりません — System",
 ]
 
+const CAT_MESSAGES = {
+  love:    { analyzing: "にゃ…\n恋愛ログを解析したよ。",       done: "恋愛ログ、解析完了にゃ。"    },
+  work:    { analyzing: "今日も一緒に\nデバッグしよう。",       done: "仕事ログ、デバッグ完了にゃ。" },
+  study:   { analyzing: "集中力モジュールを\n検索中...",        done: "勉強ログ、コンパイル完了にゃ。"},
+  money:   { analyzing: "財務ログを\nスキャン中...",            done: "財務ログ、スキャン完了にゃ。" },
+  social:  { analyzing: "接続エラーを\n修復中...",              done: "接続エラー、修復完了にゃ。"   },
+  future:  { analyzing: "未来ファイルを\n展開中...",            done: "未来ファイル、展開完了にゃ。" },
+  default: { analyzing: "ログを解析中...\n少し待ってね。",      done: "修正案を生成したにゃ。"       },
+}
+
 export default class extends Controller {
   static targets = [
     "catAvatar", "catBubble",
@@ -35,12 +45,13 @@ export default class extends Controller {
     "shareX", "shareCopy",
     "quoteText",
   ]
-  static values = { url: String }
+  static values = { url: String, input: String }
 
   connect() {
     this.bootDone    = false
     this.pendingData = null
     this.shareUrl    = window.location.href
+    this.category    = this.detectCategory(this.hasInputValue ? this.inputValue : "")
 
     this.setQuote()
 
@@ -61,9 +72,21 @@ export default class extends Controller {
     this.quoteTextTarget.textContent = q
   }
 
+  // ── Category detection ──
+  detectCategory(text) {
+    if (/恋人|彼氏|彼女|恋愛|好き|デート|片思い|失恋|告白/.test(text))       return "love"
+    if (/仕事|就職|転職|会社|上司|職場|残業|バイト|ブラック|面接/.test(text))  return "work"
+    if (/勉強|受験|テスト|学校|大学|授業|成績|資格|試験/.test(text))          return "study"
+    if (/お金|貯金|借金|節約|収入|給料|貧|財布|散財/.test(text))             return "money"
+    if (/友達|人間関係|孤独|ぼっち|家族|親|兄弟|仲間|コミュ/.test(text))      return "social"
+    if (/将来|不安|夢|目標|やりたい|迷|キャリア|方向性/.test(text))           return "future"
+    return "default"
+  }
+
   // ── Boot sequence ──
   runBoot() {
-    this.setCat("analyzing", "", "...")
+    const msg = CAT_MESSAGES[this.category] || CAT_MESSAGES.default
+    this.setCat("analyzing", "", msg.analyzing)
     BOOT.forEach(step => setTimeout(() => this.renderStep(step), step.delay))
     setTimeout(() => {
       this.bootDone = true
@@ -118,55 +141,63 @@ export default class extends Controller {
   // ── Render result ──
   async renderComplete(data) {
     try {
-    await this.wait(200)
-    this.addLine("⚠️  ERROR DETECTED — ログ生成完了", "err")
-    await this.wait(350)
-    this.setCat("alert", "alert", "ログを整理しています...")
+      await this.wait(200)
+      this.addLine("⚠️  ERROR DETECTED — ログ生成完了", "err")
+      await this.wait(350)
+      this.setCat("alert", "alert", "ログを整理しています...")
 
-    await this.wait(400)
-    const divider = document.createElement("div")
-    divider.className = "error-log-divider"
-    divider.innerHTML = `
-      <div class="divider-line"></div>
-      <span class="divider-label">▼ ERROR LOG GENERATED</span>
-      <div class="divider-line"></div>
-    `
-    this.bootSequenceTarget.after(divider)
+      await this.wait(400)
+      const divider = document.createElement("div")
+      divider.className = "error-log-divider"
+      divider.innerHTML = `
+        <div class="divider-line"></div>
+        <span class="divider-label">▼ ERROR LOG GENERATED</span>
+        <div class="divider-line"></div>
+      `
+      this.bootSequenceTarget.after(divider)
 
-    const box = document.createElement("div")
-    box.className = "error-log-box"
-    divider.after(box)
+      const box = document.createElement("div")
+      box.className = "error-log-box"
+      divider.after(box)
 
-    await this.wait(300)
-    await this.typewrite(data.error_log || "", box)
+      await this.wait(300)
+      await this.typewrite(data.error_log || "", box)
 
-    if (data.caused_by || data.hint || data.log_time) {
-      const meta = document.createElement("div")
-      meta.className = "error-log-meta"
-      meta.innerHTML = [
-        data.caused_by ? `<span class="meta-key">Caused by:</span> <span class="meta-val">${this.esc(data.caused_by)}</span>` : "",
-        data.hint      ? `<span class="meta-key">Hint:</span>      <span class="meta-hint">${this.esc(data.hint)}</span>` : "",
-        data.log_time  ? `<span class="meta-key">Time:</span>      <span class="meta-dim">${this.esc(data.log_time)}</span>` : "",
-        data.log_id    ? `<span class="meta-key">ID:</span>        <span class="meta-dim">${this.esc(data.log_id)}</span>` : "",
-      ].filter(Boolean).join("\n")
-      box.appendChild(meta)
-    }
+      if (data.caused_by || data.hint || data.log_time) {
+        const meta = document.createElement("div")
+        meta.className = "error-log-meta"
+        meta.innerHTML = [
+          data.caused_by ? `<span class="meta-key">Caused by:</span> <span class="meta-val">${this.esc(data.caused_by)}</span>` : "",
+          data.hint      ? `<span class="meta-key">Hint:</span>      <span class="meta-hint">${this.esc(data.hint)}</span>` : "",
+          data.log_time  ? `<span class="meta-key">Time:</span>      <span class="meta-dim">${this.esc(data.log_time)}</span>` : "",
+          data.log_id    ? `<span class="meta-key">ID:</span>        <span class="meta-dim">${this.esc(data.log_id)}</span>` : "",
+        ].filter(Boolean).join("\n")
+        box.appendChild(meta)
+      }
 
-    // デカ目ピクセル猫をエラーログの右側に出す
-    const pixelCat = document.createElement("img")
-    pixelCat.src = "/images/cat-pixel.png"
-    pixelCat.className = "error-pixel-cat"
-    pixelCat.alt = "NECO"
-    box.appendChild(pixelCat)
-    setTimeout(() => pixelCat.classList.add("visible"), 150)
+      const pixelCat = document.createElement("img")
+      pixelCat.src = "/images/cat-pixel.png"
+      pixelCat.className = "error-pixel-cat"
+      pixelCat.alt = "NECO"
+      box.appendChild(pixelCat)
+      setTimeout(() => pixelCat.classList.add("visible"), 150)
 
-    await this.wait(500)
-    this.setCat("fix", "fix", "ログが完成しました。")
-    this.animateGauges(data.summary || {})
+      await this.wait(500)
+      this.animateGauges(data.summary || {})
 
-    await this.wait(600)
-    this.renderFixes(data.suggested_fix || [])
-    this.updateShare(data)
+      await this.wait(600)
+      this.renderFixes(data.suggested_fix || [])
+      this.updateShare(data)
+
+      // 完了メッセージ
+      await this.wait(600)
+      this.addLine("──────────────────────────────────────────", "ok")
+      this.addLine("✓ Debug Complete", "ok")
+      await this.wait(180)
+      const doneMsg = (CAT_MESSAGES[this.category] || CAT_MESSAGES.default).done
+      this.addLine(`Neco: ${doneMsg}`, "purple")
+      this.setCat("fix", "fix", doneMsg)
+
     } catch(e) { console.error("renderComplete error:", e) }
   }
 
@@ -178,9 +209,10 @@ export default class extends Controller {
     this.gaugePctTarget.textContent = `${sev}%`
 
     let riskCls, riskLabel
-    if (sev >= 90)      { riskCls = "critical"; riskLabel = "CRITICAL"  }
-    else if (sev >= 70) { riskCls = "high";     riskLabel = "HIGH RISK" }
-    else if (sev >= 40) { riskCls = "mid";      riskLabel = "MODERATE"  }
+    if (sev >= 95)      { riskCls = "critical"; riskLabel = "CRITICAL"  }
+    else if (sev >= 80) { riskCls = "high";     riskLabel = "HIGH RISK" }
+    else if (sev >= 60) { riskCls = "warn";     riskLabel = "CAUTION"   }
+    else if (sev >= 30) { riskCls = "mid";      riskLabel = "MODERATE"  }
     else                { riskCls = "low";      riskLabel = "LOW RISK"  }
 
     this.gaugeFillTarget.setAttribute("class", `gauge-fill ${riskCls}`)
@@ -239,8 +271,7 @@ export default class extends Controller {
   // ── Helpers ──
   setCat(state, mood, text) {
     if (this.hasCatAvatarTarget) {
-      const el = this.catAvatarTarget
-      el.className = `cat-img ${state}`
+      this.catAvatarTarget.className = `cat-img ${state}`
     }
     if (this.hasCatBubbleTarget) {
       this.catBubbleTarget.className   = `cat-bubble ${mood}`

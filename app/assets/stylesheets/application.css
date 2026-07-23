@@ -254,16 +254,23 @@ body {
 .cat-bubble.alert { color: var(--red); }
 .cat-bubble.fix { color: var(--green); }
 
-/* Pixel cat inside error log box */
-.error-log-box { position: relative; min-height: 160px; }
+/* Pixel cat — in divider header row, right side */
+.error-log-box { min-height: 80px; }
 .error-pixel-cat {
-  position: absolute; bottom: 0; right: 0;
-  width: 150px; height: 150px; object-fit: contain;
-  opacity: 0; transition: opacity 0.8s ease;
-  pointer-events: none;
-  filter: drop-shadow(0 0 12px rgba(255,80,200,0.7));
+  position: absolute; right: 10px; bottom: 66px;
+  width: 105px; height: 105px; object-fit: contain;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.6s ease, filter 0.5s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none; z-index: 3;
+  filter: drop-shadow(0 0 12px rgba(255,73,200,0.8));
 }
-.error-pixel-cat.visible { opacity: 1; }
+.error-pixel-cat.visible { opacity: 1; transform: translateX(0); }
+/* severity-linked filter — simulates expression change */
+.error-pixel-cat.sev-low      { filter: drop-shadow(0 0 8px rgba(68,255,170,0.5)) brightness(1.15) hue-rotate(45deg); }
+.error-pixel-cat.sev-mid      { filter: drop-shadow(0 0 10px rgba(255,204,68,0.5)) brightness(1.05); }
+.error-pixel-cat.sev-high     { filter: drop-shadow(0 0 12px rgba(255,136,68,0.6)); }
+.error-pixel-cat.sev-critical { filter: drop-shadow(0 0 14px rgba(255,73,200,0.9)) saturate(1.2); }
 
 /* Logo */
 .logo-img-wrap {
@@ -304,6 +311,7 @@ body {
 .console-txt.warn { color: var(--yellow); }
 .console-txt.info { color: var(--cyan); }
 .console-txt.purple { color: var(--purple); }
+.console-txt.dim { color: var(--text-mute); opacity: 0.6; }
 
 .console-progress {
   display: flex; align-items: center; gap: 8px;
@@ -335,24 +343,43 @@ body {
 .divider-label { color: var(--red); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-shadow: 0 0 10px rgba(255,68,102,0.8); white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
 
 .error-log-box {
+  position: relative;
   background: #0f1018;
   border: 1px solid rgba(255,68,102,0.25);
-  border-radius: 6px; padding: 14px;
-  white-space: pre-wrap; word-break: break-word;
-  color: var(--text); font-size: 0.78rem; line-height: 1.8;
+  border-radius: 6px;
+  color: var(--text); font-size: 0.78rem; line-height: 1.65;
   font-family: 'JetBrains Mono', monospace;
+  min-height: 190px;
   opacity: 0;
+  overflow: hidden;
   animation: fadeInLine 0.5s ease 0.1s forwards;
+}
+/* Error Box だけスクロール（コンソールは固定・猫は常に見える） */
+.error-log-scroll {
+  max-height: 360px; overflow-y: auto;
+  padding: 12px 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,68,102,0.4) transparent;
+}
+.error-log-scroll::-webkit-scrollbar { width: 6px; }
+.error-log-scroll::-webkit-scrollbar-thumb { background: rgba(255,68,102,0.4); border-radius: 3px; }
+.error-log-text {
+  white-space: pre-wrap; word-break: break-word;
 }
 
 /* Error log metadata (Caused by / Hint / Time / ID) */
 .error-log-meta {
-  margin-top: 12px; padding-top: 10px;
+  margin-top: 8px; padding-top: 8px;
   border-top: 1px solid rgba(255,68,102,0.2);
-  font-size: 0.75rem; line-height: 2;
-  white-space: pre; display: block;
+  font-size: 0.75rem; line-height: 1.7;
+  display: block;
 }
-.meta-key  { color: var(--pink);     font-weight: 700; display: inline-block; min-width: 90px; }
+.meta-line { display: block; }
+.meta-line + .meta-line { margin-top: 3px; }
+/* Time と ID は横並びで高さを詰める */
+.meta-inline { display: flex; gap: 22px; flex-wrap: wrap; }
+.meta-row { display: inline-block; }
+.meta-key  { color: var(--pink);     font-weight: 700; }
 .meta-val  { color: var(--text-dim); }
 .meta-hint { color: var(--cyan);     }
 .meta-dim  { color: var(--text-mute); }

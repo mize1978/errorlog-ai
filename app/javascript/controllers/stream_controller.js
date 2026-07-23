@@ -160,6 +160,10 @@ export default class extends Controller {
       this.setCat("alert", "alert", "ログを整理しています...")
 
       await this.wait(400)
+
+      const sev = (data.summary || {}).severity || 0
+      const catCls = sev >= 80 ? "sev-critical" : sev >= 60 ? "sev-high" : sev >= 30 ? "sev-mid" : "sev-low"
+
       const divider = document.createElement("div")
       divider.className = "error-log-divider"
       divider.innerHTML = `
@@ -173,24 +177,37 @@ export default class extends Controller {
       box.className = "error-log-box"
       divider.after(box)
 
+      // スクロールする内側ラッパー（猫は box 直下に置くので一緒にスクロールしない）
+      const scroll = document.createElement("div")
+      scroll.className = "error-log-scroll"
+      box.appendChild(scroll)
+
+      const textEl = document.createElement("div")
+      textEl.className = "error-log-text"
+      scroll.appendChild(textEl)
+
       await this.wait(300)
-      await this.typewrite(data.error_log || "", box)
+      await this.typewrite(data.error_log || "", textEl)
 
       if (data.caused_by || data.hint || data.log_time) {
         const meta = document.createElement("div")
         meta.className = "error-log-meta"
+        const inline = [
+          data.log_time ? `<span class="meta-row"><span class="meta-key">Time:</span> <span class="meta-dim">${this.esc(data.log_time)}</span></span>` : "",
+          data.log_id   ? `<span class="meta-row"><span class="meta-key">ID:</span> <span class="meta-dim">${this.esc(data.log_id)}</span></span>` : "",
+        ].filter(Boolean).join("")
         meta.innerHTML = [
-          data.caused_by ? `<span class="meta-key">Caused by:</span> <span class="meta-val">${this.esc(data.caused_by)}</span>` : "",
-          data.hint      ? `<span class="meta-key">Hint:</span>      <span class="meta-hint">${this.esc(data.hint)}</span>` : "",
-          data.log_time  ? `<span class="meta-key">Time:</span>      <span class="meta-dim">${this.esc(data.log_time)}</span>` : "",
-          data.log_id    ? `<span class="meta-key">ID:</span>        <span class="meta-dim">${this.esc(data.log_id)}</span>` : "",
-        ].filter(Boolean).join("\n")
-        box.appendChild(meta)
+          data.caused_by ? `<div class="meta-line"><span class="meta-key">Caused by:</span> <span class="meta-val">${this.esc(data.caused_by)}</span></div>` : "",
+          data.hint      ? `<div class="meta-line"><span class="meta-key">Hint:</span> <span class="meta-hint">${this.esc(data.hint)}</span></div>` : "",
+          inline         ? `<div class="meta-line meta-inline">${inline}</div>` : "",
+        ].filter(Boolean).join("")
+        scroll.appendChild(meta)
       }
 
+      // 猫 — box 直下の絶対配置。中身がスクロールしても常に右下に見える
       const pixelCat = document.createElement("img")
       pixelCat.src = "/images/cat-pixel.png"
-      pixelCat.className = "error-pixel-cat"
+      pixelCat.className = `error-pixel-cat ${catCls}`
       pixelCat.alt = "NECO"
       box.appendChild(pixelCat)
       setTimeout(() => pixelCat.classList.add("visible"), 150)
@@ -202,12 +219,13 @@ export default class extends Controller {
       this.renderFixes(data.suggested_fix || [])
       this.updateShare(data)
 
-      // 完了メッセージ
+      // 完了メッセージ — Booting/Connecting等は消し、解析シーンの最後6行だけ残す
       await this.wait(600)
-      this.addLine("──────────────────────────────────────────", "ok")
-      this.addLine("✓ Debug Complete", "ok")
-      await this.wait(180)
       const doneMsg = (CAT_MESSAGES[this.category] || CAT_MESSAGES.default).done
+      const kids = Array.from(this.bootSequenceTarget.children)
+      kids.slice(0, Math.max(0, kids.length - 6)).forEach(el => el.remove())
+      this.addLine("──────────────────────────────", "dim")
+      this.addLine("✓ Debug Complete", "ok")
       this.addLine(`Neco: ${doneMsg}`, "purple")
       this.setCat("fix", "fix", doneMsg)
 

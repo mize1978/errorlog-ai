@@ -38,7 +38,13 @@ AIは裏方。答えを出すのはあなた自身。
 
 ## Demo
 
-![Demo GIF](./docs/demo.gif)
+**Before — Neco is waiting.**
+
+![Idle terminal](./docs/idle.png)
+
+**After — your worry, debugged.**
+
+![Debug result](./docs/hero.png)
 
 *Input → Log → Summary → Reflect*
 

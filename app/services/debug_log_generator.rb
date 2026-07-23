@@ -47,13 +47,13 @@ class DebugLogGenerator
 
         at Life.expectation_vs_reality (life.rb:42)
         at Self.confidence_check (mind.rb:行番号)
-        at Society.comparison_engine (social.rb:行番号)
 
       再試行回数    : 数字
       最終通信      : 〇〇前
       エラーレベル  : 🔴 FATAL（または 🟠 ERROR または 🟡 WARN）
 
       ルール：
+      - stack traceの「at ...」行は最大2行まで（多すぎると読みにくい）
       - error_logはユーモアたっぷりに、でも共感的に
       - suggested_fixは【重要】各10〜15文字以内の超短い日本語で。例：「まず5分だけ動く」「誰かに話す」「1つだけ応募する」
       - JSONのみ出力（前後に文字を入れない）

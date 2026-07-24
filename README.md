@@ -15,10 +15,6 @@
 
 ---
 
-![DebugMe Screenshot](./docs/hero.png)
-
----
-
 ## What is DebugMe?
 
 DebugMe is not an AI counselor.
@@ -38,15 +34,19 @@ AIは裏方。答えを出すのはあなた自身。
 
 ## Demo
 
-**Before — Neco is waiting.**
+**1. Waiting** — Neco is ready, but never speaks first.
 
-![Idle terminal](./docs/idle.png)
+![Waiting](./docs/idle.png)
 
-**After — your worry, debugged.**
+**2. Streaming** — your worry is analyzed in real time.
 
-![Debug result](./docs/hero.png)
+![Streaming](./docs/demo.gif)
 
-*Input → Log → Summary → Reflect*
+**3. Result** — your worry, debugged.
+
+![Result](./docs/hero.png)
+
+*Input → Streaming → Log → Summary → Reflect*
 
 ---
 
@@ -113,7 +113,9 @@ flowchart TD
     A[User Input] --> B[Prompt Builder]
     B --> C[Claude API]
     C --> D[Streaming Response]
-    D --> E[Summary]
+    D --> E[Error Log]
+    E --> F[Summary]
+    F --> G[Reflection]
 ```
 
 ---
@@ -145,8 +147,10 @@ DebugMe shows what AI *shouldn't* do — and why that restraint matters.
 ## Roadmap
 
 - [ ] GitHub Login
-- [ ] Session History
-- [ ] Export
+- [ ] Personal Debug History
+- [ ] AI Memory — Neco remembers your past logs
+- [ ] Weekly Reflection — look back on your week
+- [ ] Mood Timeline — visualize how you've changed
 - [ ] Multiple AI Models
 - [ ] Share Debug Log
 

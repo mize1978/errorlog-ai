@@ -30,7 +30,7 @@ class DebugLogsController < ApplicationController
 
   def create
     @debug_log = DebugLog.new(
-      input:      params[:debug_log][:input],
+      input:      debug_log_params[:input],
       ip_hash:    Digest::SHA256.hexdigest(request.remote_ip),
       view_count: 0
     )
@@ -110,5 +110,12 @@ class DebugLogsController < ApplicationController
     @logs = DebugLog.where.not(output: nil)
                     .order(view_count: :desc)
                     .limit(20)
+  end
+
+  private
+
+  # Strong Parameters: 許可した属性のみを受け取る（Mass Assignment 対策）
+  def debug_log_params
+    params.require(:debug_log).permit(:input)
   end
 end
